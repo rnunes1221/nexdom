@@ -1,10 +1,10 @@
-package com.mov_estoque.demo;
+package br.tec.nexdom.stock;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TesteTecnicoMovEstoqueApplicationTests {
+class StockOperationApplicationTests {
 
 	@Test
 	void contextLoads() {
