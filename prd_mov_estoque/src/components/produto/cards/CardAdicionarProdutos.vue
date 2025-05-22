@@ -30,11 +30,13 @@
           />
 
           <InputProduto
-            disable
             label="quantidade"
             v-model="quantidade"
             type="number"
-            :rules="[val => !!val || 'Quantidade é obrigatório']"
+            :rules="[
+              val => !!val || 'Valor é obrigatório',
+              val => parseFloat(val) > 0 || 'Valor deve ser maior que 0'
+            ]"
           />
 
           <div>

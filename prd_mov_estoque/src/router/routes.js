@@ -5,7 +5,9 @@ const routes = [
     children: [
       { path: '', component: () => import('src/pages/produtos/ProdutosPage.vue') },
       { path: 'adicionarProdutos', component: () => import('src/pages/produtos/AdicionarProdutosPage.vue') },
-      { path: 'editarProdutos', component: () => import('src/pages/produtos/EditarProdutosPage.vue') }
+      { path: 'editarProdutos', component: () => import('src/pages/produtos/EditarProdutosPage.vue') },
+      { path: 'movimentacoes', component: () => import('src/pages/movimentacoes/MovimentacoesPage.vue') },
+      { path: 'adicionarMovimentacoes', component: () => import('src/pages/movimentacoes/AdicionarMovimentacoesPage.vue') }
     ]
   },
 

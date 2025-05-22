@@ -8,7 +8,7 @@
     >
       <template v-slot:top-left>
         <q-btn
-          label="Adicionar Produto"
+          label="Produto"
           icon="add"
           color="primary"
           dense
@@ -39,12 +39,25 @@
           </q-td>
 
           <q-td key="operacoes" :props="props">
+             <q-btn
+              icon="reorder"
+              round
+              dense
+              size="11px"
+              color="primary"
+              @click="redirectAdicionarMovimentacoesPage(props.row)"
+            >
+              <q-tooltip>
+                Criar movimentações
+              </q-tooltip>
+            </q-btn>
             <q-btn
               icon="edit"
               round
               dense
               size="11px"
               color="primary"
+              class="q-ml-sm"
               @click="redirectEditarProdutosPage(props.row)"
             >
               <q-tooltip>
@@ -107,6 +120,13 @@ export default defineComponent({
     redirectEditarProdutosPage(produto){
       this.$router.push({
         path: 'editarProdutos',
+        query: { produto: JSON.stringify(produto) }
+      });
+    },
+
+    redirectAdicionarMovimentacoesPage(produto){
+      this.$router.push({
+        path: 'adicionarMovimentacoes',
         query: { produto: JSON.stringify(produto) }
       });
     },
