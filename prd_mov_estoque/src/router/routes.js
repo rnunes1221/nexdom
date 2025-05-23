@@ -3,11 +3,11 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('src/pages/produtos/ProdutosPage.vue') },
-      { path: 'adicionarProdutos', component: () => import('src/pages/produtos/AdicionarProdutosPage.vue') },
-      { path: 'editarProdutos', component: () => import('src/pages/produtos/EditarProdutosPage.vue') },
-      { path: 'movimentacoes', component: () => import('src/pages/movimentacoes/MovimentacoesPage.vue') },
-      { path: 'adicionarMovimentacoes', component: () => import('src/pages/movimentacoes/AdicionarMovimentacoesPage.vue') }
+      { path: '', component: () => import('src/pages/product/ProductPage.vue') },
+      { path: 'createProduct', component: () => import('src/pages/product/CreateProductPage.vue') },
+      { path: 'updateProduct', component: () => import('src/pages/product/UpdateProductPage.vue') },
+      { path: 'movement', component: () => import('src/pages/movement/MovementPage.vue') },
+      { path: 'createMovement', component: () => import('src/pages/movement/CreateMovementPage.vue') }
     ]
   },
 

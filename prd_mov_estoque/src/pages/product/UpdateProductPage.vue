@@ -1,19 +1,19 @@
 <template>
   <div>
-    <TableMovimentacoes />
+    <CardUpdateProduct />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import TableMovimentacoes from 'src/components/movimentacoes/tables/TableMovimentacoes.vue';
+import CardUpdateProduct from 'src/components/product/cards/CardUpdateProduct.vue';
 export default defineComponent({
   data(){
     return {
     }
   },
   components:{
-    TableMovimentacoes
+    CardUpdateProduct
   }
 })
 </script>

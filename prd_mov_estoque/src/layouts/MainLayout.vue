@@ -15,9 +15,9 @@
          <q-btn
           flat
           dense
-          label="Movimentações"
+          label="Movement"
           icon="table_rows"
-          to="movimentacoes"
+          to="movement"
           color="primary"
           text-color="white"
         />

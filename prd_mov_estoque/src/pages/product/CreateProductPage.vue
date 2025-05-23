@@ -1,19 +1,19 @@
 <template>
   <div>
-    <TableProdutos />
+    <CardCreateProduct />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import TableProdutos from 'src/components/produto/tables/TableProdutos.vue';
+import CardCreateProduct from 'src/components/product/cards/CardCreateProduct.vue';
 export default defineComponent({
   data(){
     return {
     }
   },
   components:{
-    TableProdutos
+    CardCreateProduct
   }
 })
 </script>

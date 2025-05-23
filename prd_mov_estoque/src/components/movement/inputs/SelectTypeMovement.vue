@@ -1,10 +1,10 @@
 <template>
   <q-select
-    :options="tipoProduto"
+    :options="type"
     filled
     dense
     stack-label
-    label="Tipo Produto"
+    label="Type"
   />
 </template>
 <script>
@@ -13,7 +13,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data(){
     return {
-      tipoProduto: ['Eletrônico', 'Eletrodoméstico', 'Móvel']
+      type: ['In', 'Out']
     }
   },
 

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <CardAdicionarMovimentacoes />
+    <CardCreateMovement />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import CardAdicionarMovimentacoes from 'src/components/movimentacoes/cards/CardAdicionarMovimentacoes.vue';
+import CardCreateMovement from 'src/components/movement/cards/CardCreateMovement.vue';
 export default defineComponent({
   data(){
     return {
     }
   },
   components:{
-    CardAdicionarMovimentacoes
+    CardCreateMovement
   }
 })
 </script>
