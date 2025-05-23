@@ -72,7 +72,7 @@
               size="11px"
               color="negative"
               class="q-ml-sm"
-              @click="confirmaExclusao = true"
+              @click="confirmDelete = true"
             >
               <q-tooltip>
                 Excluir
@@ -83,16 +83,16 @@
       </template>
     </q-table>
   </div>
-  <DialogConfirmaExclusao v-model="confirmaExclusao"/>
+  <DialogConfirmDelete v-model="confirmDelete"/>
 
 </template>
 <script>
 import { defineComponent } from 'vue';
-import DialogConfirmaExclusao from '../dialog/DialogConfirmDelete.vue';
+import DialogConfirmDelete from '../dialog/DialogConfirmDelete.vue';
 export default defineComponent({
   data(){
     return {
-      confirmaExclusao: false,
+      confirmDelete: false,
       columns:[
         { name: 'id', label: 'Id', field: 'id', align: 'left', sortable: true },
         { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: true },
@@ -111,6 +111,9 @@ export default defineComponent({
         },
       ]
     }
+  },
+  components:{
+    DialogConfirmDelete
   },
   methods:{
     redirectCreateProductPage(){
@@ -137,7 +140,7 @@ export default defineComponent({
     }
   },
   components:{
-    DialogConfirmaExclusao
+    DialogConfirmDelete
   },
   mounted(){
     this.getAllProducts();

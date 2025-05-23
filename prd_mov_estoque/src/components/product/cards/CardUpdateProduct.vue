@@ -23,7 +23,7 @@
             ]"
           />
 
-          <SelecttypeProduto
+          <SelectTypeProduct
             v-model="type"
             :rules="[val => !!val || 'Type is mandatory']"
           />
