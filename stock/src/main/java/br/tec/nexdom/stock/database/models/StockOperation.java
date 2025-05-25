@@ -1,7 +1,5 @@
 package br.tec.nexdom.stock.database.models;
 
-import br.tec.nexdom.stock.core.entities.Product;
-import br.tec.nexdom.stock.core.entities.StockOperationType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,10 +15,23 @@ public class StockOperation {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
     @Enumerated(EnumType.STRING)
+    @Column(name = "stock_operation_type")
     private StockOperationType type;
+    @Column(name = "sale_value")
     private BigDecimal value;
+    @Column(name = "sale_date")
     private LocalDate date;
     private Long amount;
+
+    public StockOperation(br.tec.nexdom.stock.core.entities.StockOperation stockOperation, Product product) {
+        this.product = product;
+        this.type = StockOperationType.valueOf(stockOperation.type().toString());
+        this.amount = stockOperation.amount();
+        this.date = stockOperation.date();
+        this.value = stockOperation.value();
+    }
+
+    public StockOperation() {}
 
     public Long getId() {
         return id;

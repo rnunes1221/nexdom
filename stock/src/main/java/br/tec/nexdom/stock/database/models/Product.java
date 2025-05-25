@@ -1,6 +1,6 @@
 package br.tec.nexdom.stock.database.models;
 
-import br.tec.nexdom.stock.core.entities.ProductType;
+import br.tec.nexdom.stock.database.models.ProductType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -15,12 +15,22 @@ public class Product {
     private Long id;
     private String description;
     @Enumerated(EnumType.STRING)
+    @Column(name="product_type")
     private ProductType type;
     @Column(name="supplier_value")
     private BigDecimal supplierValue;
     private Long stock;
     @OneToMany(mappedBy = "product")
     private List<StockOperation> operations;
+
+    public Product() {}
+
+    public Product(br.tec.nexdom.stock.core.entities.Product entity) {
+        this.description = entity.description();
+        this.type = ProductType.valueOf(entity.type().toString());
+        this.supplierValue = entity.supplierValue();
+        this.stock = entity.stock();
+    }
 
     public List<StockOperation> getOperations() {
         return operations;
@@ -68,5 +78,15 @@ public class Product {
 
     public void setStock(Long stock) {
         this.stock = stock;
+    }
+
+    public br.tec.nexdom.stock.core.entities.Product toEntity() {
+        return new br.tec.nexdom.stock.core.entities.Product(
+                this.id,
+                this.description,
+                br.tec.nexdom.stock.core.entities.ProductType.valueOf(this.type.toString()),
+                this.supplierValue,
+                this.stock
+        );
     }
 }

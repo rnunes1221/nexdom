@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record StockOperation(
-        Product product,
+        Long productId,
         StockOperationType type,
         BigDecimal value,
         LocalDate date,
         Long amount
 ) {}
+

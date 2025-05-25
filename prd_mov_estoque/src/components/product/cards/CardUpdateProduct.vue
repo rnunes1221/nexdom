@@ -63,7 +63,6 @@ export default defineComponent({
   },
   methods:{
     updateProduct(id, description, value, type){
-
       // TODO:Método de Editar Produto
       console.log(id);
       console.log(description);
@@ -71,16 +70,48 @@ export default defineComponent({
       console.log(type);
     },
 
-    initialVariables(produtoRouteParams){
-      this.id = produtoRouteParams.id;
-      this.description = produtoRouteParams.description;
-      this.value = parseFloat(produtoRouteParams.supplierValue).toFixed(2);
-      this.type = produtoRouteParams.type;
+    initialVariables(product){
+      this.description = product.description;
+      this.value = parseFloat(product.supplierValue).toFixed(2);
+      this.type = product.type;
+    },
+
+    getProductById(idProduct){
+      this.$api.get(`products/${idProduct}`)
+      .then((res) => {
+        if (res.status === 200) {
+          this.initialVariables(res.data);
+
+          if (res.data.length === 0) {
+            this.$q.notify({
+              closeBtn: true,
+              timeout: 3000,
+              message: "Product not found.",
+              type: "warning",
+            });
+          }
+        } else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     }
   },
   mounted(){
-    const produtoRouteParams = JSON.parse(this.$route.query.product);
-    this.initialVariables(produtoRouteParams)
+    this.id = JSON.parse(this.$route.query.product);
+    this.getProductById(this.id);
   }
 })
 </script>

@@ -58,7 +58,7 @@
               size="11px"
               color="primary"
               class="q-ml-sm"
-              @click="redirectUpdateProductPage(props.row)"
+              @click="redirectUpdateProductPage(props.row.id)"
             >
               <q-tooltip>
                 Update
@@ -72,7 +72,7 @@
               size="11px"
               color="negative"
               class="q-ml-sm"
-              @click="confirmDelete = true"
+              @click="deleteProduct(props.row.id)"
             >
               <q-tooltip>
                 Excluir
@@ -83,7 +83,7 @@
       </template>
     </q-table>
   </div>
-  <DialogConfirmDelete v-model="confirmDelete"/>
+  <DialogConfirmDelete v-model="confirmDelete" :idProduct="idProduct"/>
 
 </template>
 <script>
@@ -93,6 +93,7 @@ export default defineComponent({
   data(){
     return {
       confirmDelete: false,
+      idProduct: null,
       columns:[
         { name: 'id', label: 'Id', field: 'id', align: 'left', sortable: true },
         { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: true },
@@ -101,21 +102,18 @@ export default defineComponent({
         { name: 'stock', label: 'Stock', field: 'stock', align: 'left', sortable: true },
         { name: 'operations', label: 'Operations', field: 'operations', align: 'left'},
       ],
-      rows: [
-        {
-          id: 1,
-          description: 'TV',
-          type: 'Home',
-          supplierValue: 240.00,
-          stock: 10,
-        },
-      ]
+      rows: []
     }
   },
   components:{
     DialogConfirmDelete
   },
   methods:{
+    deleteProduct(idProduct){
+      this.idProduct = idProduct;
+      this.confirmDelete = true;
+    },
+
     redirectCreateProductPage(){
       this.$router.push({ path: 'createProduct'});
     },
@@ -135,14 +133,42 @@ export default defineComponent({
     },
 
     getAllProducts(){
-      console.log('todos produtos');
-      // TODO: Metodo carrega todos os produtos
+      this.$api.get(`products`)
+      .then((res) => {
+        if (res.status === 200) {
+          this.rows = res.data;
+
+          if (res.data.length === 0) {
+            this.$q.notify({
+              closeBtn: true,
+              timeout: 3000,
+              message: "Products not found.",
+              type: "warning",
+            });
+          }
+        } else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     }
   },
   components:{
     DialogConfirmDelete
   },
-  mounted(){
+  created(){
     this.getAllProducts();
   }
 
