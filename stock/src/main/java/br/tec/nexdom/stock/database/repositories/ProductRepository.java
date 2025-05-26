@@ -100,11 +100,11 @@ public class ProductRepository {
                     p.id,
                     p.description,
                     sum(s.amount) as sales,
-                    (s.amount * s.value) - (s.amount * p.supplierValue) as profit
+                    SUM((s.amount * s.value) - (s.amount * p.supplierValue)) AS profit
                 FROM Product p
                 INNER JOIN StockOperation s on s.product.id = p.id
                 WHERE s.type = 'OUT'
-                GROUP BY p.id, s.amount, s.value
+                GROUP BY p.id, p.description
                 """;
         var query = this.entityManager.createQuery(strQuery, Profit.class);
         return query.getResultList();
