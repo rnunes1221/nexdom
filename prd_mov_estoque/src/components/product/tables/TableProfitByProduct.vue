@@ -18,32 +18,19 @@
             {{ props.row.description }}
           </q-td>
 
-          <q-td key="type" :props="props">
-            {{ props.row.type }}
-          </q-td>
-
-          <q-td key="supplierValue" :props="props" class="text-green">
-            R$ {{ parseFloat(props.row.supplierValue).toFixed(2) }}
-          </q-td>
-
-          <q-td key="sellingPrice" :props="props" class="text-green">
-            R$ {{ parseFloat(props.row.sellingPrice).toFixed(2) }}
-          </q-td>
-
-          <q-td key="stockOut" :props="props">
-            {{ props.row.stockOut }}
-          </q-td>
-
-          <q-td key="stock" :props="props">
-            {{ props.row.stock }}
-          </q-td>
-
           <q-td
             key="profit"
             :props="props"
             :class="parseFloat(props.row.profit).toFixed(2) <= 0 ? 'text-red' : 'text-green'"
           >
             R$ {{ parseFloat(props.row.profit).toFixed(2)}}
+          </q-td>
+
+          <q-td
+            key="sales"
+            :props="props"
+          >
+            {{props.row.sales}}
           </q-td>
         </q-tr>
       </template>
@@ -61,25 +48,10 @@ export default defineComponent({
       columns:[
         { name: 'id', label: 'Id', field: 'id', align: 'left', sortable: true },
         { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: true },
-        { name: 'type', label: 'Type', field: 'type', align: 'left', sortable: true },
-        { name: 'supplierValue', label: 'Supplier Value', field: 'supplierValue', align: 'left', sortable: true },
-        { name: 'sellingPrice', label: 'Selling Price', field: 'sellingPrice', align: 'left', sortable: true },
-        { name: 'stockOut', label: 'Stock Out', field: 'stockOut', align: 'left', sortable: true },
-        { name: 'stock', label: 'Stock', field: 'stock', align: 'left', sortable: true },
         { name: 'profit', label: 'Profit', field: 'profit', align: 'left', sortable: true },
+        { name: 'sales', label: 'Sales', field: 'sales', align: 'left', sortable: true },
       ],
-      rows: [
-        {
-          id: 1,
-          description: 'TV',
-          type: 'Home',
-          supplierValue: 240.00,
-          sellingPrice:300.00,
-          stockOut: 1,
-          stock: 10,
-          profit: -10.00
-        },
-      ]
+      rows: []
     }
   },
   components:{
@@ -87,8 +59,32 @@ export default defineComponent({
   },
   methods:{
     getAllProfitByProduct(){
-      //TODO: metodo lucro por produto
+      this.$api.get(`products/profit`)
+      .then((res) => {
+        if (res.status === 200) {
+          this.rows = res.data;
+        }
+        else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     }
   },
+  created(){
+    this.getAllProfitByProduct();
+  }
 })
 </script>

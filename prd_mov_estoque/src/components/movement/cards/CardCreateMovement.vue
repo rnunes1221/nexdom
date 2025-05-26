@@ -24,7 +24,7 @@
             Value Supplier: {{ parseFloat(this.supplierValue).toFixed(2) }}
           </div>
           <InputProduct
-            v-show="type === 'OUT'"
+            v-if="type === 'OUT'"
             label="Sale Value"
             v-model="saleValue"
             type="number"
@@ -45,7 +45,7 @@
           />
 
           <InputProduct
-            v-show="type === 'OUT'"
+            v-if="type === 'OUT'"
             v-model="saleDate"
             filled
             type="date"
@@ -94,8 +94,8 @@ export default defineComponent({
   },
   methods:{
 
-    createSale(){
-       this.$api.post(`stock-operations/sale"`,{
+    createSale(productId, saleValue, saleDate, stock){
+       this.$api.post(`stock-operations/sale`,{
         productId: productId,
         saleValue: saleValue,
         saleDate: saleDate,
@@ -133,19 +133,17 @@ export default defineComponent({
       });
     },
 
-    incrementStock(){
-      this.$api.post(`products`,{
-        description: description,
-        type: type,
-        amount: stock,
-        supplierValue: value,
+    incrementStock(productId, amount){
+      this.$api.post(`stock-operations/increment-stock`,{
+        productId: productId,
+        amount: amount,
       })
       .then((res) => {
         if (res.status === 201) {
           this.$q.notify({
             closeBtn: true,
             timeout: 3000,
-            message: "product successfully created",
+            message: "product successfully incremented",
             type: "positive",
           });
 
@@ -173,11 +171,12 @@ export default defineComponent({
     },
 
     createMovement(productId, saleValue, type, stock, saleDate){
+      console.log(type)
       if(type == 'OUT'){
-        this.createSale();
+        this.createSale(productId, saleValue, saleDate, stock);
       }
       else{
-        this.incrementStock();
+        this.incrementStock(productId, stock);
       }
 
     },

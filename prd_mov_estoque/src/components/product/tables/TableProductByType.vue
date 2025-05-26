@@ -23,20 +23,12 @@
             {{ props.row.description }}
           </q-td>
 
-          <q-td key="type" :props="props">
-            {{ props.row.type }}
-          </q-td>
-
-          <q-td key="supplierValue" :props="props" class="text-green">
-            R$ {{ parseFloat(props.row.supplierValue).toFixed(2) }}
-          </q-td>
-
-          <q-td key="stockOut" :props="props">
-            {{ props.row.stockOut }}
-          </q-td>
-
           <q-td key="stock" :props="props">
             {{ props.row.stock }}
+          </q-td>
+
+            <q-td key="sales" :props="props">
+            {{ props.row.sales }}
           </q-td>
         </q-tr>
       </template>
@@ -54,21 +46,10 @@ export default defineComponent({
       columns:[
         { name: 'id', label: 'Id', field: 'id', align: 'left', sortable: true },
         { name: 'description', label: 'Description', field: 'description', align: 'left', sortable: true },
-        { name: 'type', label: 'Type', field: 'type', align: 'left', sortable: true },
-        { name: 'supplierValue', label: 'Supplier Value', field: 'supplierValue', align: 'left', sortable: true },
-        { name: 'stockOut', label: 'Stock Out', field: 'stockOut', align: 'left', sortable: true },
         { name: 'stock', label: 'Stock', field: 'stock', align: 'left', sortable: true },
+        { name: 'sales', label: 'Sales', field: 'sales', align: 'left', sortable: true },
       ],
-      rows: [
-        {
-          id: 1,
-          description: 'TV',
-          type: 'Home',
-          supplierValue: 240.00,
-          stockOut: 1,
-          stock: 10,
-        },
-      ]
+      rows: []
     }
   },
   components:{
@@ -76,8 +57,27 @@ export default defineComponent({
   },
   methods:{
     getAllProductsByType(typeProduct){
-      //TODO: metodo produtos por tipo
-      console.log(typeProduct)
+      this.$api.get(`products/current-stock?productType=${typeProduct}`)
+      .then((res) => {
+        if (res.status === 200) {
+          this.rows = res.data;
+        } else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     }
   },
 })

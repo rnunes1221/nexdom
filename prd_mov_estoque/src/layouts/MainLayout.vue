@@ -11,18 +11,6 @@
           color="primary"
           text-color="white"
         />
-
-         <q-btn
-          flat
-          dense
-          label="Movement"
-          icon="table_rows"
-          to="movement"
-          color="primary"
-          text-color="white"
-        />
-
-
       </q-toolbar>
     </q-header>
 
