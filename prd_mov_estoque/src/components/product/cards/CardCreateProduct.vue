@@ -91,9 +91,9 @@ export default defineComponent({
             type: "positive",
           });
 
-          // setTimeout(() => {
-          //   window.location.href = '/';
-          // }, 2000);
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
         }
         else {
           this.$q.notify({

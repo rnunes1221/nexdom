@@ -1,0 +1,256 @@
+type: collection.insomnia.rest/5.0
+name: nexdom
+meta:
+  id: wrk_ee5c0877d3174a39a8e30e6e73954ecd
+  created: 1747953110929
+  modified: 1748057365103
+collection:
+  - name: products
+    meta:
+      id: fld_7de8fc3cc299457583263182baf7cc08
+      created: 1748057443026
+      modified: 1748057467292
+      sortKey: -1748057443026
+    children:
+      - url: localhost:8080/products
+        name: getAll
+        meta:
+          id: req_0bdc5218ddb94215abbb8847df7684eb
+          created: 1747953110980
+          modified: 1748101332455
+          isPrivate: false
+          sortKey: -1748057450724
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products/2
+        name: getById
+        meta:
+          id: req_0caf5f82c8564e30890d1263cc4034c6
+          created: 1748057386253
+          modified: 1748138055185
+          isPrivate: false
+          sortKey: -1748057450624
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products/2
+        name: delete
+        meta:
+          id: req_83b836f2977f42988a25eb3cab0ab4eb
+          created: 1748057417374
+          modified: 1748223883526
+          isPrivate: false
+          sortKey: -1748057450824
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products
+        name: create
+        meta:
+          id: req_131ddec65a5742e4be1eb7f5f46e0264
+          created: 1748100548408
+          modified: 1748138611951
+          isPrivate: false
+          sortKey: -1748057450774
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"description": "teste1",
+            	"type": "ELECTRONIC",
+            	"amount": 1,
+            	"supplierValue": 100
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products/1
+        name: update
+        meta:
+          id: req_3b6b35e970184b3bb35b983b3aaac19e
+          created: 1748136482827
+          modified: 1748215088576
+          isPrivate: false
+          sortKey: -1748057450749
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"description": "TV12",
+            	"type": "ELECTRONIC",
+            	"amount": 1,
+            	"supplierValue": 100
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products/current-stock?productType=ELECTRONIC
+        name: current-stock
+        meta:
+          id: req_d0140994f3fa4c58b267bc5d2226a55f
+          created: 1748226892881
+          modified: 1748227807780
+          isPrivate: false
+          sortKey: -1748057450924
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/products/profit
+        name: profit
+        meta:
+          id: req_47b30e618e7f4bc09e6f607edc2fed37
+          created: 1748229790415
+          modified: 1748232001762
+          isPrivate: false
+          sortKey: -1748057451024
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: stockOperations
+    meta:
+      id: fld_1745d634b1514b7ca3647c457cccd019
+      created: 1748143601340
+      modified: 1748143601340
+      sortKey: -1748143601340
+    children:
+      - url: localhost:8080/stock-operations/sale
+        name: createSale
+        meta:
+          id: req_49bef391b9e04d0c8bfa3606ed1abeca
+          created: 1748143606149
+          modified: 1748230574395
+          isPrivate: false
+          sortKey: -1748143606149
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"productId": 1,
+            	"saleValue": 7000.00,
+            	"saleDate": "2025-01-02",
+            	"amount": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8080/stock-operations/increment-stock
+        name: incrementStock
+        meta:
+          id: req_a24ee5e4a1e04d99987a35cfc4a9e40c
+          created: 1748147224486
+          modified: 1748217457474
+          isPrivate: false
+          sortKey: -1748100528486.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"productId": 1,
+            	"amount": 10
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_dbda875b9e85730d990976ce2b2fc25ccb63a0fa
+    created: 1747953110932
+    modified: 1747953110932
+environments:
+  name: Base Environment
+  meta:
+    id: env_dbda875b9e85730d990976ce2b2fc25ccb63a0fa
+    created: 1747953110931
+    modified: 1747953110931
+    isPrivate: false
