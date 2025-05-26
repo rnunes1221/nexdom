@@ -1,7 +1,9 @@
 package br.tec.nexdom.stock.controllers;
 
+import br.tec.nexdom.stock.core.entities.CurrentStock;
 import br.tec.nexdom.stock.core.entities.Product;
 import br.tec.nexdom.stock.core.entities.ProductType;
+import br.tec.nexdom.stock.core.entities.Profit;
 import br.tec.nexdom.stock.core.exceptions.NotFoundException;
 import br.tec.nexdom.stock.requests.ProductRequest;
 import br.tec.nexdom.stock.services.ProductService;
@@ -55,4 +57,15 @@ public class ProductController extends BaseController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/current-stock")
+    public ResponseEntity<List<CurrentStock>> getCurrentStock(@RequestParam(required = false) ProductType productType) {
+        var currentStock = this.productService.getCurrentStock(productType);
+        return ResponseEntity.ok(currentStock);
+    }
+
+    @GetMapping("/profit")
+    public ResponseEntity<List<Profit>> getProfit() {
+        var profit = this.productService.getProfit();
+        return ResponseEntity.ok(profit);
+    }
 }

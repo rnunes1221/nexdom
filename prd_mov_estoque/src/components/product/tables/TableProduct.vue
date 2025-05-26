@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <div class="text-center text-subtitle text-bold">
+      ALL PRODUCTS
+    </div>
     <q-table
       title="Products"
       :rows="rows"
@@ -40,11 +43,11 @@
 
           <q-td key="operations" :props="props">
              <q-btn
-              icon="reorder"
+              icon="add"
               round
               dense
               size="11px"
-              color="primary"
+              color="green"
               @click="redirectCreateMovementPage(props.row)"
             >
               <q-tooltip>
@@ -61,7 +64,7 @@
               @click="redirectUpdateProductPage(props.row.id)"
             >
               <q-tooltip>
-                Update
+                Update Product
               </q-tooltip>
             </q-btn>
 
@@ -75,7 +78,7 @@
               @click="deleteProduct(props.row.id)"
             >
               <q-tooltip>
-                Excluir
+                Delete Product
               </q-tooltip>
             </q-btn>
           </q-td>

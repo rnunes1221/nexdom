@@ -11,6 +11,7 @@
           <InputProduct
             label="description"
             v-model="description"
+            @update:model-value="description = $event.toUpperCase()"
             :rules="[val => !!val || 'Description is mandatory']"
           />
 
@@ -75,11 +76,42 @@ export default defineComponent({
   },
   methods:{
     createProduct(description, value, type, stock){
-      // TODO:Método de adicionar
-      console.log(description);
-      console.log(value);
-      console.log(type);
-      console.log(stock);
+      this.$api.post(`products`,{
+        description: description,
+        type: type,
+        amount: stock,
+        supplierValue: value,
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "product successfully created",
+            type: "positive",
+          });
+
+          // setTimeout(() => {
+          //   window.location.href = '/';
+          // }, 2000);
+        }
+        else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     }
   }
 })

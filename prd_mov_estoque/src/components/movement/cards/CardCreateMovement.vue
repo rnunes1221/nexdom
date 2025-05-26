@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
-      <q-form @submit="createMovement(product, sellingPrice, type, stock)" ref="form">
+      <q-form @submit="createMovement(productId, saleValue, type, stock, saleDate)" ref="form">
         <div class="q-gutter-md">
 
           <div class="text-subtitle2 text-bold text-center">
@@ -24,8 +24,9 @@
             Value Supplier: {{ parseFloat(this.supplierValue).toFixed(2) }}
           </div>
           <InputProduct
-            label="Selling Price"
-            v-model="sellingPrice"
+            v-show="type === 'OUT'"
+            label="Sale Value"
+            v-model="saleValue"
             type="number"
             :rules="[
               val => !!val || 'Value is mandatory',
@@ -40,6 +41,17 @@
             :rules="[
               val => !!val || 'Value is mandatory',
               val => parseFloat(val) > 0 || 'Value must be greater than 0'
+            ]"
+          />
+
+          <InputProduct
+            v-show="type === 'OUT'"
+            v-model="saleDate"
+            filled
+            type="date"
+            hint="Native date"
+             :rules="[
+              val => !!val || 'Value is mandatory',
             ]"
           />
 
@@ -67,12 +79,13 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data(){
     return {
-      idProduct: null,
+      productId: null,
       product: null,
-      sellingPrice: 0.00,
+      saleValue: 0.00,
       stock: 0,
       type: null,
       supplierValue: 0,
+      saleDate: null
     }
   },
   components:{
@@ -80,17 +93,98 @@ export default defineComponent({
     SelectTypeMovement
   },
   methods:{
-    createMovement(product, sellingPrice, type, stock){
-      // TODO:Método de adicionar
-      console.log(product);
-      console.log(sellingPrice);
-      console.log(type);
-      console.log(stock);
+
+    createSale(){
+       this.$api.post(`stock-operations/sale"`,{
+        productId: productId,
+        saleValue: saleValue,
+        saleDate: saleDate,
+        amount: stock,
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "movement sale successfully created",
+            type: "positive",
+          });
+
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        }
+        else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
+    },
+
+    incrementStock(){
+      this.$api.post(`products`,{
+        description: description,
+        type: type,
+        amount: stock,
+        supplierValue: value,
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "product successfully created",
+            type: "positive",
+          });
+
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        }
+        else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
+    },
+
+    createMovement(productId, saleValue, type, stock, saleDate){
+      if(type == 'OUT'){
+        this.createSale();
+      }
+      else{
+        this.incrementStock();
+      }
+
     },
 
     initialVariables(produtoRouteParams){
       this.product = produtoRouteParams.description;
-      this.idProduct = produtoRouteParams.id;
+      this.productId = produtoRouteParams.id;
       this.supplierValue = produtoRouteParams.supplierValue;
     }
   },

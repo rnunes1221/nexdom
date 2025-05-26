@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <div class="text-center text-subtitle text-bold">
+      ALL MOVEMENTS
+    </div>
     <q-table
       :rows="rows"
       :columns="columns"

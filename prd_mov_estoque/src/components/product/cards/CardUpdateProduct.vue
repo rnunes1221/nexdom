@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
-      <q-form @submit="updateProduct(id, description, value, type)" ref="form">
+      <q-form @submit="updateProduct(id, description, value, type, stock)" ref="form">
         <div class="q-gutter-md">
           <div class="text-subtitle2 text-bold text-center">
             UPDATE PRODUCT
@@ -20,6 +20,16 @@
             :rules="[
               val => !!val || 'Value is mandatory',
               val => parseFloat(val) > 0 || 'Value must be greater than 0'
+            ]"
+          />
+
+          <InputProduct
+            label="stock"
+            v-model="stock"
+            type="number"
+            :rules="[
+              val => !!val || 'Value is mandatory',
+              val => parseFloat(val) > 0 || 'Stock must be greater than 0'
             ]"
           />
 
@@ -54,7 +64,8 @@ export default defineComponent({
       description: null,
       value: null,
       type:null,
-      id: null
+      id: null,
+      stock: null,
     }
   },
   components:{
@@ -62,18 +73,50 @@ export default defineComponent({
     SelectTypeProduct
   },
   methods:{
-    updateProduct(id, description, value, type){
-      // TODO:Método de Editar Produto
-      console.log(id);
-      console.log(description);
-      console.log(parseFloat(value).toFixed(2));
-      console.log(type);
+    updateProduct(id, description, supplierValue, type, stock){
+      this.$api.put(`products/${id}`,{
+        description: description,
+        type: type,
+        amount: stock,
+        supplierValue: supplierValue,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "product successfully updated",
+            type: "positive",
+          });
+
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        }
+        else {
+          this.$q.notify({
+            closeBtn: true,
+            timeout: 3000,
+            message: "Error.",
+            type: "negative",
+          });
+        }
+      })
+      .catch((error) => {
+        this.$q.notify({
+          closeBtn: true,
+          timeout: 3000,
+          message: `Error: ${error.message}`,
+          type: "negative",
+        });
+      });
     },
 
     initialVariables(product){
       this.description = product.description;
       this.value = parseFloat(product.supplierValue).toFixed(2);
       this.type = product.type;
+      this.stock = product.stock;
     },
 
     getProductById(idProduct){

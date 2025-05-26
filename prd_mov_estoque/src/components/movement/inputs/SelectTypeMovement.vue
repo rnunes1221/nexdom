@@ -13,7 +13,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data(){
     return {
-      type: ['In', 'Out']
+      type: ['IN', 'OUT']
     }
   },
 

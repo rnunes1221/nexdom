@@ -1,6 +1,8 @@
 package br.tec.nexdom.stock.database.repositories;
 
+import br.tec.nexdom.stock.core.entities.CurrentStock;
 import br.tec.nexdom.stock.core.entities.ProductType;
+import br.tec.nexdom.stock.core.entities.Profit;
 import br.tec.nexdom.stock.core.exceptions.NotFoundException;
 import br.tec.nexdom.stock.database.models.Product;
 import jakarta.persistence.Entity;
@@ -66,5 +68,45 @@ public class ProductRepository {
     public Product findProductById(Long id) throws NotFoundException {
         var model = this.entityManager.find(Product.class, id);
         return Optional.ofNullable(model).orElseThrow(() -> new NotFoundException("Product not found"));
+    }
+
+    public List<CurrentStock> getCurrentStock(ProductType productType) {
+        var strQuery = new StringBuilder();
+        strQuery.append("""
+                SELECT
+                    p.id,
+                    p.description,
+                    p.stock,
+                    sum(s.amount) as sales
+                FROM Product p
+                INNER JOIN StockOperation s on s.product.id = p.id
+                WHERE s.type = 'OUT'
+                """);
+        if (productType != null) {
+            strQuery.append("AND p.type = :productType\n");
+        }
+        strQuery.append("GROUP BY p.id");
+        var query = this.entityManager.createQuery(strQuery.toString(), CurrentStock.class);
+
+        if (productType != null) {
+            query.setParameter("productType", br.tec.nexdom.stock.database.models.ProductType.valueOf(productType.toString()));
+        }
+        return query.getResultList();
+    }
+
+    public List<Profit> getProfit() {
+        var strQuery = """
+                SELECT
+                    p.id,
+                    p.description,
+                    sum(s.amount) as sales,
+                    (s.amount * s.value) - (s.amount * p.supplierValue) as profit
+                FROM Product p
+                INNER JOIN StockOperation s on s.product.id = p.id
+                WHERE s.type = 'OUT'
+                GROUP BY p.id, s.amount, s.value
+                """;
+        var query = this.entityManager.createQuery(strQuery, Profit.class);
+        return query.getResultList();
     }
 }

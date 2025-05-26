@@ -13,7 +13,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data(){
     return {
-      typeProduct: ['Electronic', 'Home', 'Furniture']
+      typeProduct: ['ELECTRONIC', 'HOME', 'FURNITURE']
     }
   },
 

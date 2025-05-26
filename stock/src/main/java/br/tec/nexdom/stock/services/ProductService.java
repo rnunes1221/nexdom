@@ -1,6 +1,9 @@
 package br.tec.nexdom.stock.services;
 
+import br.tec.nexdom.stock.core.entities.CurrentStock;
 import br.tec.nexdom.stock.core.entities.Product;
+import br.tec.nexdom.stock.core.entities.ProductType;
+import br.tec.nexdom.stock.core.entities.Profit;
 import br.tec.nexdom.stock.core.exceptions.NotFoundException;
 import br.tec.nexdom.stock.database.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -42,5 +45,13 @@ public class ProductService {
     @Transactional
     public void updateStock(Long id, Long amount) throws NotFoundException {
         this.repository.updateStock(id, amount);
+    }
+
+    public List<CurrentStock> getCurrentStock(ProductType productType) {
+        return this.repository.getCurrentStock(productType);
+    }
+
+    public List<Profit> getProfit() {
+        return this.repository.getProfit();
     }
 }
